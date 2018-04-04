@@ -77,7 +77,7 @@ int				main(int ac, char **av)
 			ft_putendl("error");
 			return (0);
 		}
-		ft_putendl("map is OK");
+		ft_reshator(lst);
 	}
 	else
 		ft_putendl("usage: fillit [file]");

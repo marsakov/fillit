@@ -11,7 +11,7 @@
 #******************************************************************************#
 
 FLAGS = -Wall -Wextra -Werror
-SRCS = main.c validator.c
+SRCS = main.c validator.c reshator.c
 LIB = libft.a
 EXEC = fillit
 HDR = fillit.h

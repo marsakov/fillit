@@ -27,6 +27,14 @@ typedef struct		s_piece
 	char			letter;
 }					t_piece;
 
+typedef struct		s_map
+{
+	struct s_map	*next;
+	char			**map;
+	int				size;
+}					t_map;
+
 int					ft_validate(t_piece *begin);
+void				ft_reshator(t_piece *lst);
 
 #endif
