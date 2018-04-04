@@ -6,7 +6,7 @@
 /*   By: yzavhoro <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/03/30 19:00:19 by yzavhoro          #+#    #+#             */
-/*   Updated: 2018/04/03 11:50:53 by yzavhoro         ###   ########.fr       */
+/*   Updated: 2018/04/04 12:14:05 by yzavhoro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,33 +37,20 @@ static int	ft_add_coords(t_piece *lst)
 	return (0);
 }
 
-static int	ft_checkfigure(t_piece *lst)
+static int	ft_checkfigure(t_piece *lst, int i, int j)
 {
-	int i;
-	int j;
 	int count;
 
-	i = -1;
-	while (++i < 4)
-	{
-		j = -1;
-		while (++j < 4)
-			if (lst->figure[i][j] == '#')
-			{
-				count = 0;
-				if (i && lst->figure[i - 1][j] == '#')
-					count++;
-				if (i < 3 && lst->figure[i + 1][j] == '#')
-					count++;
-				if (j && lst->figure[i][j - 1] == '#')
-					count++;
-				if (j < 3 && lst->figure[i][j + 1] == '#')
-					count++;
-				if (!count)
-					return (0);
-			}
-	}
-	return (1);
+	count = 0;
+	if (i && lst->figure[i - 1][j] == '#')
+		count++;
+	if (i < 3 && lst->figure[i + 1][j] == '#')
+		count++;
+	if (j && lst->figure[i][j - 1] == '#')
+		count++;
+	if (j < 3 && lst->figure[i][j + 1] == '#')
+		count++;
+	return (count);
 }
 
 static int	ft_checksize(t_piece *lst)
@@ -72,24 +59,25 @@ static int	ft_checksize(t_piece *lst)
 	int j;
 	int dot;
 	int hash;
+	int connect;
 
-	i = 0;
+	i = -1;
 	dot = 0;
 	hash = 0;
-	while (i < 4)
+	connect = 0;
+	while (++i < 4)
 	{
-		j = 0;
-		while (j < 4)
-		{
+		j = -1;
+		while (++j < 4)
 			if (lst->figure[i][j] == '.')
 				dot++;
 			else if (lst->figure[i][j] == '#')
+			{
 				hash++;
-			j++;
-		}
-		i++;
+				connect += ft_checkfigure(lst, i, j);
+			}
 	}
-	if (dot != 12 || hash != 4 || !ft_checkfigure(lst))
+	if (dot != 12 || hash != 4 || (connect != 6 && connect != 8))
 		return (0);
 	return (1);
 }
