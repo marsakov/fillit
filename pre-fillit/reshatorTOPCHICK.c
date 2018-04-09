@@ -65,7 +65,6 @@ static void ft_rewrite_map(char **src, char **map)
 
 static int ft_find_place(char **map, int *indexes, int n)
 {
-    print_map(map);
     while (indexes[0] < n)
     {
         while (indexes[1] < n)
@@ -82,74 +81,63 @@ static int ft_find_place(char **map, int *indexes, int n)
     return (0);
 }
 
-char    **ft_copy_map(char **map)
+char	**ft_copy_map(char **map)
 {
-    int n;
-    int i;
-    char **temp;
+	int n;
+	int i;
+	char **temp;
 
-    i = 0;
-    n = 0;
-    while (map[n])
-        n++;
-    if (!(temp = (char**)malloc(sizeof(char*) * (n + 1))))
-        return (0);
-    while (i < n)
-    {
-        if (!(temp[i] = (char*)malloc(sizeof(char) * (n + 1))))
-            return (0);
-        ft_strcpy(temp[i], map[i]);
-        i++;
-    }
-    return (temp);
+	i = 0;
+	n = 0;
+	while (map[n])
+		n++;
+	if (!(temp = (char**)malloc(sizeof(char*) * (n + 1))))
+		return (0);
+	while (i < n)
+	{
+		if (!(temp[i] = (char*)malloc(sizeof(char) * (n + 1))))
+			return (0);
+		ft_strcpy(temp[i], map[i]);
+		i++;
+	}
+	return (temp);
 }
 
-static int ft_fill_map(char **map, int *indexes, t_piece *lst)
+static int ft_fill_map(char **map, int *indexes, t_piece *lst, int n)
 {
-    int x;
-    int y;
-    int i;
-    int j;
-    int counter;
-    char **copy;
+	int		x;
+	int		y;
+	int		i;
+	int		j;
+	int		counter;
+	char	**copy;
 
-    i = indexes[0];
-    j = indexes[1];
-    y = 0;
-    counter = 0;
-    copy = ft_copy_map(map);
-    // printf("________________________________\n");
-    // print_map(copy);
-    // printf("~~~~~~~~~~~~~~~~~~~~~~~~`\n");
-    while (y < 4)
-    {
-        x = 0;
-        while (x < 4)
-        {
-            if (lst->figure[y][x] == '#')
-            {
-                if (map[i + y - lst->y_start] && map[i + y - lst->y_start][j + x - lst->x_start] && map[i + y - lst->y_start][j + x - lst->x_start] == '.')
-                {
-                    map[i + y - lst->y_start][j + x - lst->x_start] = lst->letter;
-                    counter++;
-                }
-            }
-            x++;
-        }
-        y++;
-    }
-    printf("Press enter to continue...\n");
-    getchar();
-    if (counter == 4)
-        return (1);
-    printf("___________DO_____________________\n");
-    print_map(map);
-    printf("~~~~~~~~~~~DO~~~~~~~~~~~~~`\n");
-    ft_rewrite_map(copy, map);
-    printf("_____________POSLE___________________\n");
-    print_map(map);
-    printf("~~~~~~~~~~~~~POSLE~~~~~~~~~~~`\n");
-    return (0);
+	i = indexes[0];
+	j = indexes[1];
+	y = 0;
+	counter = 0;
+	copy = ft_copy_map(map);
+	while (y < 4)
+	{
+		x = 0;
+		while (x < 4)
+		{
+			if (lst->figure[y][x] == '#')
+			{
+				if (i + y - lst->y_start < n && j + x - lst->x_start < n && map[i + y - lst->y_start][j + x - lst->x_start] == '.')
+				{
+					map[i + y - lst->y_start][j + x - lst->x_start] = lst->letter;
+					counter++;
+				}
+			}
+			x++;
+		}
+		y++;
+	}
+	if (counter == 4)
+		return (1);
+	ft_rewrite_map(copy, map);
+	return (0);
 }
 
 void    ft_reshator(t_piece *lst)
@@ -170,10 +158,8 @@ void    ft_reshator(t_piece *lst)
     {
         if (ft_find_place(map, indexes, n))
         {
-            if (ft_fill_map(map, indexes, lst))                             //DOPISAT'
+            if (ft_fill_map(map, indexes, lst, n))            
             {
-                printf("KEK\n");
-                print_map(map);
                 indexes[0] = 0;
                 indexes[1] = 0;
                 if (solutions)
@@ -196,8 +182,7 @@ void    ft_reshator(t_piece *lst)
                     solutions->next = NULL;
                 }
                 lst = lst->next;
-                print_map(map);
-            }
+             }
             else
             {
                 if (indexes[1] < n - 1)
