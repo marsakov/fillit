@@ -18,6 +18,9 @@
 # include <fcntl.h>
 # include <stdio.h>
 
+# define I indexes[0] + y - lst->y_start
+# define J indexes[1] + x - lst->x_start
+
 typedef struct		s_piece
 {
 	char			figure[4][4];
