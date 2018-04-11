@@ -6,12 +6,12 @@
 #    By: yzavhoro <marvin@42.fr>                    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2018/04/03 11:22:47 by yzavhoro          #+#    #+#              #
-#    Updated: 2018/04/03 11:33:46 by yzavhoro         ###   ########.fr        #
+#    Updated: 2018/04/10 11:44:46 by yzavhoro         ###   ########.fr        #
 #                                                                              #
 #******************************************************************************#
 
 FLAGS = -Wall -Wextra -Werror
-SRCS = main.c validator.c reshator.c
+SRCS = main.c validator.c reshatorTOPCHICK.c fillit.c
 LIB = libft.a
 EXEC = fillit
 HDR = fillit.h

@@ -30,14 +30,10 @@ typedef struct		s_piece
 	char			letter;
 }					t_piece;
 
-typedef struct		s_map
-{
-	struct s_map	*next;
-	char			**map;
-	int				size;
-}					t_map;
-
 int					ft_validate(t_piece *begin);
-void				ft_reshator(t_piece *lst);
+int					ft_reshator(t_piece *lst, char **map, int n, int *indexes);
+int					ft_fillit(t_piece *lst, char **map, int n);
+char				**ft_copy_map(char **map);
+void				ft_rewrite_map(char **src, char **map, int n);
 
 #endif

@@ -32,31 +32,7 @@ void    print_map(char **map)
     }
 }
 
-static char     **ft_create_map(int n)
-{
-    int i;
-    int j;
-    char **map;
-    
-    i = 0;
-    if (!(map = (char**)malloc(sizeof(char*) * (n + 1))))
-        return (NULL);
-    while (i < n)
-        if (!(map[i++] = (char*)malloc(sizeof(char) * (n + 1))))
-            return (NULL);
-    i = 0;
-    while (i < n)
-    {
-        j = 0;
-        while (j < n)
-            map[i][j++] = '.';
-        map[i++][j] = '\0';
-    }
-    map[i] = NULL;
-    return (map);
-}
-
-static void ft_rewrite_map(char **src, char **map, int n)
+void ft_rewrite_map(char **src, char **map, int n)
 {   
     int i;
     int j;
@@ -141,75 +117,26 @@ static int ft_fill_map(char **map, int *indexes, t_piece *lst, int n)
     return (0);
 }
 
-static t_map *ft_addmap(char **map, int n)
+int    ft_reshator(t_piece *lst, char **map, int n, int *indexes)
 {
-    t_map *elem;
+    char    **copy;
 
-    if (!(elem = (t_map*)malloc(sizeof(t_map))))
-        return (NULL);
-    elem->map = map;
-    elem->size = n;
-    elem->next = NULL;
-    return (elem);
-}
-
-void    ft_reshator(t_piece *lst)
-{
-    int     n;
-    char    **map;
-    t_map   *solutions;
-    t_map   *last;
-    int     *indexes;
-
-    indexes = (int *)malloc(sizeof(int) * 2);
-    n = 2;
-    map = ft_create_map(n);
-    solutions = NULL;
-    indexes[0] = 0;
-    indexes[1] = 0;
-    while (lst)
+    copy = ft_copy_map(map);
+    while (indexes[0] < n && indexes[1] < n && ft_find_place(map, indexes, n))
     {
-        if (ft_find_place(map, indexes, n))
-        {
-            if (ft_fill_map(map, indexes, lst, n))
-            {
-                indexes[0] = 0;
-                indexes[1] = 0;
-                if (solutions)
-                {
-                    last = solutions;
-                    while (last->next)
-                        last = last->next;
-                    last->next = ft_addmap(map, n);
-                }
-                else
-                    solutions = ft_addmap(map, n);
-                lst = lst->next;
-             }
-            else
-            {
-                if (indexes[1] < n - 1)
-                    indexes[1]++;
-                else
-                {
-                    indexes[0]++;
-                    indexes[1] = 0;
-                }
-            }
-        }
+        if (ft_fill_map(map, indexes, lst, n))
+            return (1);
         else
         {
-            last = solutions;
-            while (last && last->next)
-                last = last->next;
-            map = ft_create_map(++n);
-            if (last)
-                ft_rewrite_map(last->map, map, n);
-            indexes[0] = 0;
-            indexes[1] = 0;
+            if (indexes[1] < n - 1)
+                indexes[1]++;
+            else
+            {
+                indexes[0]++;
+                indexes[1] = 0;
+            }
         }
     }
-    while (solutions && solutions->next)
-        solutions = solutions->next;
-    print_map(solutions->map);
+    ft_rewrite_map(copy, map, n);
+    return (0);
 }

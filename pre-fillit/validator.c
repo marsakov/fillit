@@ -84,12 +84,16 @@ static int	ft_checksize(t_piece *lst)
 
 int			ft_validate(t_piece *lst)
 {
+	int s;
+
+	s = 0;
 	while (lst)
 	{
 		if (!ft_checksize(lst))
 			return (0);
 		ft_add_coords(lst);
+		s++;
 		lst = lst->next;
 	}
-	return (1);
+	return (s);
 }
