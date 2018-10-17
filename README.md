@@ -1,5 +1,4 @@
 # FillIt
-========
 
 Fillit is a recursive backtracking algorithm that fits a set of Tetriminos in the smallest possible square without rotating the Tetriminos.
 
